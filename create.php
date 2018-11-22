@@ -1,5 +1,5 @@
 <?php
-$dalej="pliki.php";
+$dalej="files.php";
 header("Location: $dalej");
 $nazwa=$_POST['n_kat'];
 $usr=$_COOKIE['user_n'];

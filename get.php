@@ -14,6 +14,6 @@ else
     }
 }
 }
-$dalej="pliki.php";
+$dalej="files.php";
 header("Location: $dalej");
 ?>

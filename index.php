@@ -6,7 +6,9 @@
 
 <body>
 
-<a href="https://github.com/DanielKwasniewski95/lab7">github</a>
+<a href="https://github.com/DanielKwasniewski95/lab7">github</a><br>
+<a href="sitemap.xml">mapa strony</a><br>
+<a href="https://webspeed.intensys.pl/wyniki/135329/">analiza strony</a>
 
 <p>Sign in</p>
 <form method="post" action="verify.php">
