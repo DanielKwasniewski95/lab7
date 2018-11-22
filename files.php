@@ -16,7 +16,7 @@ $ip=$details -> ip;
             exit;
         }    
         $idk=$_COOKIE['user'];
-      $query ="SELECT * FROM logs_fail WHERE idu=$idk order by datagodzina desc limit 1";
+      $query ="SELECT * FROM logserror WHERE idu=$idk order by datagodzina desc limit 1";
       $result = mysqli_query($polaczenie, $query); 
       $rekord1 = mysqli_fetch_array($result); 
       ?>

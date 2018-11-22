@@ -20,7 +20,7 @@ $user=strtolower($_POST['user']); // login z formularza
  $result = mysqli_query($link, $query); // pobranie z BD wiersza, w którym login=login z formularza
  $rekord = mysqli_fetch_array($result); // wiersza z BD, struktura zmiennej jak w BD
  $idk=$rekord['id'];
- $query ="SELECT * FROM logs_fail WHERE idu='$idk'";
+ $query ="SELECT * FROM logserror WHERE idu='$idk'";
  $result = mysqli_query($link, $query); 
  $rekord1 = mysqli_fetch_array($result); 
  if(!$rekord) //Jeśli brak, to nie ma użytkownika o podanym loginie
@@ -44,9 +44,9 @@ else
             setcookie("user", $rekord['id'], mktime(23,59,59,date("m"),date("d"),date("Y")));
             setcookie("user_n", $rekord['login'], mktime(23,59,59,date("m"),date("d"),date("Y")));
     }
-          $query="INSERT INTO logs_ok VALUES (NULL,$idk,'$ip','$godzina')";
+          $query="INSERT INTO logs VALUES (NULL,$idk,'$ip','$godzina')";
           mysqli_query($link, $query);
-          $query="UPDATE logs_fail SET proba='0' WHERE idu='$idk'";
+          $query="UPDATE logserror SET proba='0' WHERE idu='$idk'";
           mysqli_query($link, $query);
           $dalej="files.php";
           header("Location: $dalej");
@@ -55,9 +55,9 @@ else
             setcookie("user", $rekord['id'], mktime(23,59,59,date("m"),date("d"),date("Y")));
             setcookie("user_n", $rekord['login'], mktime(23,59,59,date("m"),date("d"),date("Y")));
     }
-          $query="INSERT INTO logs_ok VALUES (NULL,$idk,'$ip','$godzina')";
+          $query="INSERT INTO logs VALUES (NULL,$idk,'$ip','$godzina')";
           mysqli_query($link, $query);
-          $query="UPDATE logs_fail SET proba='0' WHERE idu='$idk'";
+          $query="UPDATE logserror SET proba='0' WHERE idu='$idk'";
           mysqli_query($link, $query);
           $dalej="files.php";
           header("Location: $dalej");
@@ -67,7 +67,7 @@ else
       $pr=$rekord1['proba'];
      if ($pr=='2'){
               $pr="b-" . strtotime("+1 minutes", time());
-              $query="UPDATE logs_fail SET proba='$pr',datagodzina='$godzina' WHERE idu='$idk'";
+              $query="UPDATE logserror SET proba='$pr',datagodzina='$godzina' WHERE idu='$idk'";
               mysqli_query($link, $query);
           }
           if(substr($pr, 0, 2) == "b-"){
@@ -75,18 +75,18 @@ else
             if(time() < $blockedTime){
                 echo "<font color=\"red\">Gived three times incorrect data. Account will be locked ",date("Y-m-d H:i:s ", $blockedTime),"</font><br>"; 
             }else{
-                $query="UPDATE logs_fail SET proba='1',datagodzina='$godzina' WHERE idu='$idk'";
+                $query="UPDATE logserror SET proba='1',datagodzina='$godzina' WHERE idu='$idk'";
                 mysqli_query($link, $query);
                 echo "Password incorrect<br><br>";
             }}else{  
             if (IsSet($rekord1)){
                 $pr=$rekord1['proba']+1;
-                $query="UPDATE logs_fail SET proba='$pr',datagodzina='$godzina' WHERE idu='$idk'";
+                $query="UPDATE logserror SET proba='$pr',datagodzina='$godzina' WHERE idu='$idk'";
                 mysqli_query($link, $query);
                  echo "Password incorrect<br><br>";
             }else{
          $pr=$rekord1['proba']+1;
-          $query="INSERT INTO logs_fail VALUES (NULL,$idk,'$ip','$godzina','$pr')";
+          $query="INSERT INTO logserror VALUES (NULL,$idk,'$ip','$godzina','$pr')";
           mysqli_query($link, $query);
            echo "Password incorrect<br><br>";
             }
