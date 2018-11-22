@@ -59,7 +59,7 @@ for($x = 2; $x < $arrlength; $x++) {
         for($y = 2; $y < $arrlength2; $y++) {
         
         if (is_file("/z7/users/$usr/$files[$x]/$files2[$y]")){
-        echo "&#8594<a href='/z7/users/$usr/$files[$x]/$files2[$y]' download='$files2[$y]'>$files2[$y]</a>";
+        echo "&#8970 <a href='/z7/users/$usr/$files[$x]/$files2[$y]' download='$files2[$y]'>$files2[$y]</a>";
         }else{ 
             echo "&#8594",$files2[$y];
         }
