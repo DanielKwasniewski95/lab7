@@ -1,19 +1,19 @@
 <?php
-$usr=$_COOKIE['user_n'];
-$sciezka=$_POST['folder'];
-$max_rozmiar = 100000;
+$user=$_COOKIE['user_n'];
+$path=$_POST['folder'];
+$size = 100000;
 if (is_uploaded_file($_FILES['plik']['tmp_name']))
 {
-if ($_FILES['plik']['size'] > $max_rozmiar) {echo "Przekroczenie rozmiaru $max_rozmiar"; }
+if ($_FILES['plik']['size'] > $size) {echo "Przekroczenie rozmiaru $size"; }
 else
 {
-    if(IsSet($sciezka)){
-        move_uploaded_file($_FILES['plik']['tmp_name'],$_SERVER['DOCUMENT_ROOT']."z7/users/$usr/$sciezka/".$_FILES['plik']['name']);
+    if(IsSet($path)){
+        move_uploaded_file($_FILES['plik']['tmp_name'],$_SERVER['DOCUMENT_ROOT']."z7/users/$user/$path/".$_FILES['plik']['name']);
     }else{
-     move_uploaded_file($_FILES['plik']['tmp_name'],$_SERVER['DOCUMENT_ROOT']."z7/users/$usr/".$_FILES['plik']['name']);
+     move_uploaded_file($_FILES['plik']['tmp_name'],$_SERVER['DOCUMENT_ROOT']."z7/users/$user/".$_FILES['plik']['name']);
     }
 }
 }
-$dalej="files.php";
-header("Location: $dalej");
+$location="files.php";
+header("Location: $location");
 ?>

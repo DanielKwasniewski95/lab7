@@ -1,24 +1,29 @@
 <?php
 $ipaddress = $_SERVER["REMOTE_ADDR"];
-function ip_details($ip) {
+
+/*function getDetails($ip) {
 $json = file_get_contents ("http://ipinfo.io/{$ip}/geo");
 $details = json_decode ($json);
 return $details;
-}
-$details = ip_details($ipaddress);
+}*/
+
+require_once ('details.php');
+require_once ('db_data.php');
+
+$details = getDetails($ipaddress);
 $ip=$details -> ip;
-    $dbhost="serwer1829042.home.pl"; $dbuser="28887864_github"; $dbpassword="githubzadanie7"; $dbname="28887864_github";
-    $polaczenie = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname);
-        if (!$polaczenie) {
+    /*$dbhost="serwer1829042.home.pl"; $dbuser="28887864_github"; $dbpassword="githubzadanie7"; $dbname="28887864_github";*/
+    $connection = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname);
+        if (!$connection) {
             echo "Błąd połączenia z MySQL." . PHP_EOL;
             echo "Errno: " . mysqli_connect_errno() . PHP_EOL;
             echo "Error: " . mysqli_connect_error() . PHP_EOL;
             exit;
         }    
         $idk=$_COOKIE['user'];
-      $query ="SELECT * FROM logserror WHERE idu=$idk order by datagodzina desc limit 1";
-      $result = mysqli_query($polaczenie, $query); 
-      $rekord1 = mysqli_fetch_array($result); 
+      $sql ="SELECT * FROM logserror WHERE idu=$idk order by datagodzina desc limit 1";
+      $result = mysqli_query($connection, $sql);
+      $row = mysqli_fetch_array($result);
       ?>
 <html>
 <head>
@@ -33,33 +38,33 @@ $ip=$details -> ip;
  ?>
 <p><b><font color="yellow">
 <?php
-$usr=$_COOKIE['user_n'];
-if(isset($usr)){
-    if(!empty($rekord1)){
-    echo "Last incorrect sign in was - ",$rekord1['datagodzina'],"";
+$user=$_COOKIE['user_n'];
+if(isset($user)){
+    if(!empty($row)){
+    echo "Last incorrect sign in was - ",$row['datagodzina'],"";
    
     }
 ?>
 </font></b></p>
 List of directories<br>
 <?php
-$usr=$_COOKIE['user_n'];
-$dir= "/z7/users/$usr";
-$files = scandir($dir);
+$user=$_COOKIE['user_n'];
+$directory= "/z7/users/$user";
+$files = scandir($directory);
 $arrlength = count($files);
 for($x = 2; $x < $arrlength; $x++) {
     
-  if (is_file("/z7/users/$usr/$files[$x]")){
-    echo "<a href='/z7/users/$usr/$files[$x]' download='$files[$x]'>$files[$x]</a><br>";
+  if (is_file("/z7/users/$user/$files[$x]")){
+    echo "<a href='/z7/users/$user/$files[$x]' download='$files[$x]'>$files[$x]</a><br>";
   }else{ 
       echo $files[$x],"<br>";
-      $dir2= "/z7/users/$usr/$files[$x]";
-      $files2 = scandir($dir2);
+      $directory2= "/z7/users/$user/$files[$x]";
+      $files2 = scandir($directory2);
       $arrlength2 = count($files2);
         for($y = 2; $y < $arrlength2; $y++) {
         
-        if (is_file("/z7/users/$usr/$files[$x]/$files2[$y]")){
-        echo "&#8970 <a href='/z7/users/$usr/$files[$x]/$files2[$y]' download='$files2[$y]'>$files2[$y]</a>";
+        if (is_file("/z7/users/$user/$files[$x]/$files2[$y]")){
+        echo "&#8970 <a href='/z7/users/$user/$files[$x]/$files2[$y]' download='$files2[$y]'>$files2[$y]</a>";
         }else{ 
             echo "&#8594",$files2[$y];
         }
@@ -73,10 +78,10 @@ for($x = 2; $x < $arrlength; $x++) {
 select directory<br>
 <form action="get.php" method="POST" ENCTYPE="multipart/form-data">
 <?php
-if (is_dir($dir)) {
-    if ($dh = opendir($dir)) {
+if (is_dir($directory)) {
+    if ($dh = opendir($directory)) {
         while (($file = readdir($dh)) !== false) {
-            if(is_dir("/z7/users/$usr/$file") && $file != '.' && $file != '..'){
+            if(is_dir("/z7/users/$user/$file") && $file != '.' && $file != '..'){
             echo "<input type=\"checkbox\" name=\"folder\" value =$file>$file<br><br>";
             }
         }
